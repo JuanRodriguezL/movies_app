@@ -1,3 +1,5 @@
+
+import 'package:app_movie/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,18 +14,24 @@ class HomeScreen extends StatelessWidget {
         actions:  [
           IconButton(
           icon: const Icon (Icons.search),
-           onPressed: () {  },
+           onPressed: () { 
+           
+            },
            )
         ],
 
       ),
-      body: const Center(
-        child:Text("home_screen")
-      ),
+      body:   const SingleChildScrollView(
+        child: Column(
+        children:[
+          CardSwiper(),
+          
+          MovieSlider()
+          
+        ],
    
-      
-       
-
+    )
+      )
     );
   }
 }
