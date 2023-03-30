@@ -9,9 +9,8 @@ class MovieSlider extends StatelessWidget {
 @override
 Widget build(BuildContext context){
 return  Container(
-  color: Colors.red,
   width: double.infinity,
-  height: 220,
+  height: 240,
   child:   Column(
 crossAxisAlignment:  CrossAxisAlignment.start,
     children: [
@@ -19,25 +18,62 @@ crossAxisAlignment:  CrossAxisAlignment.start,
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Text("populares",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
         ),
-
+           const SizedBox(height: 5,),
         Expanded(
           child: ListView.builder(
            itemCount: 20,
-           itemBuilder: (_,int index){
-        
-            return Container(
-              color: Colors.amber,
-              height: 190,
-              width: 130,
-              margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-            );
-        
-          }
+           scrollDirection: Axis.horizontal,
+           itemBuilder: (_,int index) => _MoviePoster() ,
           ),
         )
       
     ]),
  
  );
+  }
+}
+
+
+class _MoviePoster extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return  Container(
+             
+              height: 190,
+              width: 130,
+              margin: const EdgeInsets.symmetric(horizontal: 10,),
+              child:   Column(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                         "details",
+                         arguments: "movie-instance");
+                    },
+                    child: ClipRRect(
+                      borderRadius:BorderRadius.circular(20) ,
+                      child: const FadeInImage(
+                        placeholder: AssetImage ("assets/no-image.jpg"), 
+                        image: NetworkImage ("https://via.placeholder.com/300x400"),
+                           height: 170,
+                           width: 130,
+                           fit: BoxFit.cover,
+                        ),
+                    ),
+                  ),
+                    const SizedBox(height: 5,),
+                    const Text("hola como vas eres la unica",
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,)
+                  
+                    
+                    
+
+                ]
+                ),
+            );
   }
 }
