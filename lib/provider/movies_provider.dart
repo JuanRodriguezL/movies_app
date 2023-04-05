@@ -1,6 +1,7 @@
 
 
 import 'package:app_movie/models/now_playing_response.dart';
+import 'package:app_movie/models/popular_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,12 +15,11 @@ class MovieProvider extends ChangeNotifier{
     final String _language="es-ES";
 
   List<Movie> onDisplayMovies = [];
+  List<Movie> onPopularMovies = [];
 
   MovieProvider(){
-    // ignore: avoid_print
-    print("iniciañlizacion de movieprovider");
-    // ignore: unnecessary_this
-    this.getOnDisplayMovies();
+    getOnDisplayMovies();
+    getPopularMovies();
   }
 
   getOnDisplayMovies() async {
@@ -29,11 +29,20 @@ class MovieProvider extends ChangeNotifier{
         final decodeData = NowPlayingResponse.fromJson(response.body);
         onDisplayMovies = decodeData.results;
         notifyListeners();
-        
 
-          
- 
- 
+  }
+
+  getPopularMovies() async{
+
+    var url = Uri.https(_baseUrl, '/3/movie/popular', {
+       "api_key":_apiKey
+       ,"language":_language,
+       "page": "1" });
+        var response = await http.get(url);
+        final decodeDataPopularResponse = PopularResponse.fromJson(response.body);
+        onPopularMovies = [...decodeDataPopularResponse.results];
+        notifyListeners();
+
 
   }
 }

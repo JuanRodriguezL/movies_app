@@ -1,8 +1,15 @@
 
+import 'package:app_movie/models/movie.dart';
 import 'package:flutter/material.dart';
 
 class MovieSlider extends StatelessWidget {
-  const MovieSlider({super.key});
+  
+   final List<Movie> movies;
+   final String? title;
+
+   const MovieSlider({super.key,
+    required this.movies, 
+     this.title});
 
  
  
@@ -14,16 +21,17 @@ return  SizedBox(
   child:   Column(
 crossAxisAlignment:  CrossAxisAlignment.start,
     children: [
-      const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Text("populares",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
+      if(title!=null)
+       Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30),
+        child: Text(title!,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
         ),
-           const SizedBox(height: 5,),
+           const SizedBox(height: 10,),
         Expanded(
           child: ListView.builder(
-           itemCount: 20,
+           itemCount: movies.length,
            scrollDirection: Axis.horizontal,
-           itemBuilder: (_,int index) => _MoviePoster() ,
+           itemBuilder: (_,int index) => _MoviePoster(movies[index]) ,
           ),
         )
       
@@ -35,6 +43,12 @@ crossAxisAlignment:  CrossAxisAlignment.start,
 
 
 class _MoviePoster extends StatelessWidget {
+  final Movie movie;
+
+  // ignore: prefer_const_constructors_in_immutables
+  _MoviePoster (this.movie);
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -54,9 +68,9 @@ class _MoviePoster extends StatelessWidget {
                     },
                     child: ClipRRect(
                       borderRadius:BorderRadius.circular(20) ,
-                      child: const FadeInImage(
-                        placeholder: AssetImage ("assets/no-image.jpg"), 
-                        image: NetworkImage ("https://via.placeholder.com/300x400"),
+                      child:  FadeInImage(
+                        placeholder: const AssetImage ("assets/no-image.jpg"), 
+                        image: NetworkImage (movie.fullPoster),
                            height: 170,
                            width: 130,
                            fit: BoxFit.cover,
@@ -64,7 +78,7 @@ class _MoviePoster extends StatelessWidget {
                     ),
                   ),
                     const SizedBox(height: 5,),
-                    const Text("hola como vas eres la unica",
+                     Text(movie.overview,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,)
