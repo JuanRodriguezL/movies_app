@@ -1,4 +1,4 @@
-import 'dart:convert';
+
 
 import 'package:app_movie/models/now_playing_response.dart';
 import 'package:flutter/material.dart';
@@ -24,12 +24,15 @@ class MovieProvider extends ChangeNotifier{
   }
 
   getOnDisplayMovies() async {
-    var url = Uri.https(_baseUrl, '/3/movie/now_playing', { "api_key":_apiKey,"language":_language,"page": "1" });
+    var url = Uri.https(_baseUrl, '/3/movie/now_playing', {
+       "api_key":_apiKey,"language":_language,"page": "1" });
 
         var response = await http.get(url);
        
         final decodeData = NowPlayingResponse.fromJson(response.body);
+        // ignore: avoid_print
         print(decodeData.results[0].title);
+        
 
           
  

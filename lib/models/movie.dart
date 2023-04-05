@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'now_playing_response.dart';
 
-class Pelicula {
-    Pelicula({
+
+class Movie {
+    Movie({
         required this.adult,
         this.backdropPath,
         required this.genreIds,
@@ -24,7 +24,7 @@ class Pelicula {
     String? backdropPath;
     List<int> genreIds;
     int id;
-    OriginalLanguage originalLanguage;
+    String originalLanguage;
     String originalTitle;
     String overview;
     double popularity;
@@ -35,16 +35,16 @@ class Pelicula {
     double voteAverage;
     int voteCount;
 
-    factory Pelicula.fromJson(String str) => Pelicula.fromMap(json.decode(str));
+    factory Movie.fromJson(String str) => Movie.fromMap(json.decode(str));
 
 
 
-    factory Pelicula.fromMap(Map<String, dynamic> json) => Pelicula(
+    factory Movie.fromMap(Map<String, dynamic> json) => Movie(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: List<int>.from(json["genre_ids"].map((x) => x)),
         id: json["id"],
-        originalLanguage: originalLanguageValues.map[json["original_language"]]!,
+        originalLanguage: json["original_language"]!,
         originalTitle: json["original_title"],
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
