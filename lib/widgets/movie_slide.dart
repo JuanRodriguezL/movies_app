@@ -2,17 +2,50 @@
 import 'package:app_movie/models/movie.dart';
 import 'package:flutter/material.dart';
 
-class MovieSlider extends StatelessWidget {
+class MovieSlider extends StatefulWidget {
   
    final List<Movie> movies;
    final String? title;
+   final Function onNextPage;
 
-   const MovieSlider({super.key,
+   const MovieSlider({
+   Key? key,
     required this.movies, 
-     this.title});
+     this.title,
+    required this.onNextPage}):
+    super(key:key);
 
- 
- 
+  @override
+  State<MovieSlider> createState() => _MovieSliderState();
+}
+
+class _MovieSliderState extends State<MovieSlider> {
+
+
+final ScrollController scrollController =  ScrollController();
+
+
+
+@override
+void initState() {
+  super.initState();
+  scrollController.addListener(() {
+    if (scrollController.position.pixels>=scrollController.position.maxScrollExtent-500){
+           widget.onNextPage();
+    }
+
+  });
+  
+}
+@override
+  void dispose() {
+    
+    super.dispose();
+  }
+
+
+
+
 @override
 Widget build(BuildContext context){
 return  SizedBox(
@@ -21,17 +54,18 @@ return  SizedBox(
   child:   Column(
 crossAxisAlignment:  CrossAxisAlignment.start,
     children: [
-      if(title!=null)
+      if(widget.title!=null)
        Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
-        child: Text(title!,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
+        child: Text(widget.title!,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
         ),
-           const SizedBox(height: 10,),
+           
         Expanded(
           child: ListView.builder(
-           itemCount: movies.length,
+          controller: scrollController,
+           itemCount: widget.movies.length,
            scrollDirection: Axis.horizontal,
-           itemBuilder: (_,int index) => _MoviePoster(movies[index]) ,
+           itemBuilder: (_,int index) => _MoviePoster(widget.movies[index]) ,
           ),
         )
       
@@ -45,8 +79,8 @@ crossAxisAlignment:  CrossAxisAlignment.start,
 class _MoviePoster extends StatelessWidget {
   final Movie movie;
 
-  // ignore: prefer_const_constructors_in_immutables
-  _MoviePoster (this.movie);
+  
+ const _MoviePoster (this.movie);
 
  
 
@@ -78,7 +112,7 @@ class _MoviePoster extends StatelessWidget {
                     ),
                   ),
                     const SizedBox(height: 5,),
-                     Text(movie.overview,
+                     Text(movie.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,)

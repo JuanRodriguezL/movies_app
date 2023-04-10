@@ -13,7 +13,7 @@ class Movie {
         required this.overview,
         required this.popularity,
          this.posterPath,
-          this.releaseDate,
+         
         required this.title,
         required this.video,
         required this.voteAverage,
@@ -29,7 +29,7 @@ class Movie {
     String overview;
     double popularity;
     String? posterPath;
-    DateTime? releaseDate;
+    
     String title;
     bool video;
     double voteAverage;
@@ -56,7 +56,7 @@ class Movie {
         overview: json["overview"],
         popularity: json["popularity"]?.toDouble(),
         posterPath: json["poster_path"],
-        releaseDate: DateTime.parse(json["release_date"]),
+       
         title: json["title"],
         video: json["video"],
         voteAverage: json["vote_average"]?.toDouble(),
