@@ -1,11 +1,14 @@
 
 import 'package:app_movie/provider/movies_provider.dart';
+import 'package:app_movie/search/search.dart';
 import 'package:app_movie/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // ignore: use_key_in_widget_constructors
 class HomeScreen extends StatelessWidget {
+
+  
 
 
   @override
@@ -20,9 +23,7 @@ class HomeScreen extends StatelessWidget {
         actions:  [
           IconButton(
           icon: const Icon (Icons.search),
-           onPressed: () { 
-           
-            },
+           onPressed: () => showSearch(context: context, delegate: MovieSearchDelegate()),
            )
         ],
 
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
         children:[
           CardSwiper(movies: movieProvider.onDisplayMovies),
-           
+
            MovieSlider(
             movies: movieProvider.onPopularMovies,
             title: "Populares",

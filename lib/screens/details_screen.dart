@@ -1,3 +1,4 @@
+import 'package:app_movie/models/movie.dart';
 import 'package:flutter/material.dart';
 
 
@@ -7,18 +8,18 @@ class DetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-// final String movie = ModalRoute.of(context)?.settings.arguments.toString() ?? "no-movie";
-
+final Movie movie = ModalRoute.of(context)!.settings.arguments as Movie;
+ 
     return   Scaffold(
       body:  CustomScrollView(
        slivers: [
-        const CustomAppBar(),
+         _CustomAppBar(movie),
         SliverList(
           delegate: SliverChildListDelegate ([
 
-            _PosterAndTitle(),
-            _Overvieew(),
-           _Overvieew()
+            _PosterAndTitle(movie),
+            _Overvieew(movie),
+          
           ])
         )
        ],
@@ -31,18 +32,34 @@ class DetailsScreen extends StatelessWidget {
   }
 }
 
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+class _CustomAppBar extends StatelessWidget {
+  final Movie movie;
+    const _CustomAppBar(this.movie);
 
- 
   @override
   Widget build(BuildContext context) {
-    return  const SliverAppBar(
-      backgroundColor: Colors.indigo,
+    return   SliverAppBar(
+      backgroundColor: Colors.black,
+      expandedHeight: 200,
+      floating: false,
       pinned: true,
   flexibleSpace: FlexibleSpaceBar(
     centerTitle: true,
-    title: Text("movie-title"),
+    titlePadding: const EdgeInsets.all(0),
+    title: Container(
+      width: double.infinity,
+      alignment: Alignment.bottomCenter,
+      padding: const EdgeInsets.only(bottom: 10),
+      color: Colors.black12,
+      child: Text(
+        movie.title
+      ),
+      
+    ),
+    background: FadeInImage(
+      placeholder: const AssetImage('assets/loading.gif'),
+      image: NetworkImage(movie.fullBackdropPath),
+    ),
       
   ),
     );
@@ -50,6 +67,8 @@ class CustomAppBar extends StatelessWidget {
 }
 
 class _PosterAndTitle extends StatelessWidget {
+   final Movie movie;
+ const _PosterAndTitle(this.movie);
 
 
   @override
@@ -61,21 +80,23 @@ class _PosterAndTitle extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius:BorderRadius.circular(20),
-            child: const FadeInImage(
-              image: NetworkImage("https://via.placeholder.com/200x300") ,
-              placeholder: AssetImage("assets/no-image.jpg"),
+            child:  FadeInImage(
+              image: NetworkImage(movie.fullPoster) ,
+              placeholder:const AssetImage("assets/no-image.jpg"),
               height: 150,
               ),
           ),
           const SizedBox( width: 20,),
-          const Column(
+           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("title.title"),
-              Text("movie.original"),
+              
+              Text(movie.title),
+              Text(movie.originalTitle),
               Row(
                 children: [
-                  Icon(Icons.star_outline,size: 15,color: Colors.amber,)
+                  const Icon(Icons.star_outline,size: 15,color: Colors.amber,),
+                Text('${movie.voteAverage}')
                 ],)
             ],)
         ]
@@ -85,14 +106,16 @@ class _PosterAndTitle extends StatelessWidget {
 }
 
 class _Overvieew extends StatelessWidget {
-  
+   final Movie movie;
+
+  const _Overvieew(this.movie);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30,
-      vertical: 10),
-      child:   Text("Sint ad nulla id irure sit fugiat laboris ea laborum officia. Eiusmod consequat excepteur adipisicing sit incididunt nulla incididunt culpa nostrud officia nisi est labore anim. Cupidatat ullamco et et nulla minim aliqua laboris consectetur dolore in proident anim. Commodo reprehenderit sint ad eu Lorem magna tempor velit veniam amet enim cupidatat laboris. Laboris voluptate adipisicing enim nostrud cupidatat magna ut excepteur dolore ad.",
+    return Container(                   
+      padding: const EdgeInsets.symmetric(horizontal: 20,
+      vertical: 15),
+      child:   Text(movie.overview,
       textAlign: TextAlign.justify,
       style: Theme.of(context).textTheme.bodyMedium,)
     );

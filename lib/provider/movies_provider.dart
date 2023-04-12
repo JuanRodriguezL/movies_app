@@ -2,6 +2,7 @@
 
 import 'package:app_movie/models/now_playing_response.dart';
 import 'package:app_movie/models/popular_response.dart';
+import 'package:app_movie/models/search_response.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -55,4 +56,15 @@ class MovieProvider extends ChangeNotifier{
 
 
   }
+   Future <List<Movie>> searchMovie (String query) async {
+ final url = Uri.https(_baseUrl, "/3/search/movie", {
+       "api_key":_apiKey,
+       "language":_language,
+       "query": query 
+       });
+
+        final response = await http.get(url);
+        final searchResponse = SearchResponse.fromJson(response.body);
+        return searchResponse.results;
+   }
 }

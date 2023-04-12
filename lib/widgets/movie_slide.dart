@@ -39,24 +39,20 @@ void initState() {
 }
 @override
   void dispose() {
-    
     super.dispose();
   }
-
-
-
 
 @override
 Widget build(BuildContext context){
 return  SizedBox(
   width: double.infinity,
-  height: 240,
+  height: 250,
   child:   Column(
 crossAxisAlignment:  CrossAxisAlignment.start,
     children: [
       if(widget.title!=null)
        Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
         child: Text(widget.title!,style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold) ),
         ),
            
@@ -75,15 +71,9 @@ crossAxisAlignment:  CrossAxisAlignment.start,
   }
 }
 
-
 class _MoviePoster extends StatelessWidget {
   final Movie movie;
-
-  
- const _MoviePoster (this.movie);
-
- 
-
+  const _MoviePoster (this.movie);
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -98,7 +88,7 @@ class _MoviePoster extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                          "details",
-                         arguments: "movie-instance");
+                         arguments: movie);
                     },
                     child: ClipRRect(
                       borderRadius:BorderRadius.circular(20) ,
@@ -116,10 +106,6 @@ class _MoviePoster extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,)
-                  
-                    
-                    
-
                 ]
                 ),
             );
